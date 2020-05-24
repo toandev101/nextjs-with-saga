@@ -1,39 +1,38 @@
-import React from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { withRedux } from '../lib/redux'
-import useInterval from '../lib/useInterval'
-import Clock from '../components/clock'
-import Counter from '../components/counter'
+import Link from 'next/link';
 
-const IndexPage = () => {
-  // Tick the time every second
+const IndexPage = ({title}) => {
+  const sayHello = useSelector((state) => state.sample.sayHello)
   const dispatch = useDispatch()
-  useInterval(() => {
+  useEffect(() => {
     dispatch({
-      type: 'TICK',
-      light: true,
-      lastUpdate: Date.now(),
+      type: 'HELLO_WATCH',
+      payload: '[DISPATCH 2] Good morning after useEffect',
     })
-  }, 1000)
+  }, []);
+
   return (
     <>
-      <Clock />
-      <Counter />
+      <h1>{title}</h1>
+      <h2>{sayHello}</h2>
+      <Link href={`/detail-abc`}>
+          <a>Detail</a>
+      </Link>
     </>
   )
 }
 
 IndexPage.getInitialProps = ({ reduxStore }) => {
-  // Tick the time once, so we'll have a
-  // valid time before first render
   const { dispatch } = reduxStore
   dispatch({
-    type: 'TICK',
-    light: typeof window === 'object',
-    lastUpdate: Date.now(),
+    type: 'HELLO_WATCH',
+    payload: '[DISPATCH 1] - Good morning',
   })
-
-  return {}
+  return {
+    title: 'Say Hello',
+  }
 }
 
 export default withRedux(IndexPage)
