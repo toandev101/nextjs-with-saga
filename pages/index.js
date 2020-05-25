@@ -20,6 +20,14 @@ const IndexPage = ({title}) => {
       <Link href={`/detail-abc`}>
           <a>Detail</a>
       </Link>
+      <br />
+      <Link href={`/ant-web`}>
+          <a>Ant Desgin Web</a>
+      </Link>
+      <br />
+      <Link href={`/ant-web-app`}>
+          <a>Ant Desgin Web App</a>
+      </Link>
     </>
   )
 }
